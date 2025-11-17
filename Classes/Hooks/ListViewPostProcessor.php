@@ -47,24 +47,7 @@ class ListViewPostProcessor
             }
         }
 
-        //        if (count($conf['items']) > 1 && $conf['renderType'] === 'checkboxLabeledToggle') {
-//            foreach ($conf['items'] as $index => $itemConf) {
-//                $itemValue = $this->getMultipleCheckboxValue($value, $index);
-//
-//                $labelChecked = $this->translate($itemConf['labelChecked'] ?? $itemConf['label'] ?? 'Enabled');
-//                $labelUnchecked = $this->translate($itemConf['labelUnchecked'] ?? 'Disabled');
-//
-//                $labels[] = ($itemValue ? $labelChecked : $labelUnchecked);
-//            }
-//            return implode(', ', $labels);
-//        }
-
         return $value;
-    }
-
-    private function getMultipleCheckboxValue($value, $index)
-    {
-//todo
     }
 
     private function translate(string $input): string
