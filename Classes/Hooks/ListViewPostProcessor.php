@@ -11,24 +11,60 @@ class ListViewPostProcessor
 {
     public function __construct(
         private readonly LanguageServiceFactory $languageServiceFactory,
-    ) {}
+    )
+    {
+    }
 
     public function postProcessValue(array $params): string
     {
         $value = $params['value'] ?? '';
         $conf = $params['colConf'] ?? [];
 
-        if (($conf['renderType'] ?? null) !== 'checkboxLabeledToggle') {
+        if ($conf['type'] !== 'check') {
             return $value;
         }
-        $labelChecked = $this->translate($conf['items'][0]['labelChecked'] ?? 'Enabled');
-        $labelUnchecked = $this->translate($conf['items'][0]['labelUnchecked'] ?? 'Disabled');
 
-        if ($value === 'Yes' || $value === '1' || $value === 1) {
-            return $labelChecked;
+        if (empty($conf['items'])) {
+            return $value;
         }
 
-        return $labelUnchecked;
+        if (count($conf['items']) === 1) {
+            $labelChecked = $this->translate(
+                $conf['items'][0]['labelChecked']
+                ?? $conf['items'][0]['label']
+                ?? 'LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:enabled'
+            );
+            $labelUnchecked = $this->translate(
+                $conf['items'][0]['labelUnchecked']
+                ?? 'LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:disabled');
+
+            if ($value === $this->translate('LLL:EXT:core/Resources/Private/Language/locallang_common.xlf:yes')) {
+                return $labelChecked;
+            }
+
+            if (($conf['renderType'] ?? null) === 'checkboxLabeledToggle') {
+                return $labelUnchecked;
+            }
+        }
+
+        //        if (count($conf['items']) > 1 && $conf['renderType'] === 'checkboxLabeledToggle') {
+//            foreach ($conf['items'] as $index => $itemConf) {
+//                $itemValue = $this->getMultipleCheckboxValue($value, $index);
+//
+//                $labelChecked = $this->translate($itemConf['labelChecked'] ?? $itemConf['label'] ?? 'Enabled');
+//                $labelUnchecked = $this->translate($itemConf['labelUnchecked'] ?? 'Disabled');
+//
+//                $labels[] = ($itemValue ? $labelChecked : $labelUnchecked);
+//            }
+//            return implode(', ', $labels);
+//        }
+
+        return $value;
+    }
+
+    private function getMultipleCheckboxValue($value, $index)
+    {
+//todo
     }
 
     private function translate(string $input): string
