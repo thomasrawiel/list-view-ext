@@ -1,7 +1,7 @@
 {
 	"name": "traw/list-view-ext",
 	"type": "typo3-cms-extension",
-	"description": "Render labeled checkboxes in the record list view",
+	"description": "List View Ext - Render checkbox labels in the record list view",
 	"authors": [
 		{
 			"name": "Thomas Rawiel",
@@ -19,7 +19,11 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "list_view_ext"
+			"extension-key": "list_view_ext",
+			"version": "1.1.0",
+			"Package": {
+				"providesPackages": {}
+			}
 		}
 	}
 }
